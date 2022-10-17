@@ -106,9 +106,21 @@ def getimages(request):
         return HttpResponse(html)
         
     
+
+def console(request):
+    container=request.GET['container']
+    shell=request.GET['shell']
+    container_name = client.containers.get(container)
+    name=container_name.attrs['Config']['Image']
+    return render(request,'Console.html',{'container':container,'shell':shell,'name':name})
+    
 def pullimg(request):
     if request.method == 'POST':
         img_name=request.POST.get('img_name')
-        res=client.images.pull(img_name)
-        return JsonResponse({'msg':'sucess'})
+        try:
+            res=client.images.pull(img_name)
+            return JsonResponse({'msg':'sucess'})
+        except docker.errors.NotFound:
+        
+            return JsonResponse({'msg':'notfound'})
         
