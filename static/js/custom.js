@@ -251,6 +251,8 @@ function pullimg() {
             getimages();
           } else if (data.msg == "exist"){
             alertify.error("This image alredy exist");
+          }else if(data.msg == "notfound"){
+            alertify.error("Image Not Found,Please Enter a Correct Image Name");
           }else{
             alertify.error("error");
           }
